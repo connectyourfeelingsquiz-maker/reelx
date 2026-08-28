@@ -1,7 +1,7 @@
 // src/pages/SafetyPage.tsx
 import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { Shield, MapPin, CheckCircle, AlertTriangle, XCircle, ExternalLink, RefreshCw } from 'lucide-react';
+import { Shield, CheckCircle, AlertTriangle, XCircle, ExternalLink, RefreshCw } from 'lucide-react';
 import { getLinkByToken } from '../services/linksService';
 import { submitSafetyEvent } from '../services/eventsService';
 import { getSafetyPageSettings, SAFETY_PAGE_DEFAULTS } from '../services/settingsService';
@@ -345,7 +345,6 @@ export function SafetyPage() {
             </>
           ) : (
             <>
-              <MapPin size={22} />
               {settings.action_button_text}
             </>
           )}
