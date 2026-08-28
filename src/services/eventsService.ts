@@ -6,8 +6,8 @@ export async function submitSafetyEvent(
   linkId: string,
   geo: GeolocationState,
   device: DeviceInfo
-): Promise<SafetyEvent> {
-  const { data, error } = await supabase
+): Promise<void> {
+  const { error } = await supabase
     .from('safety_events')
     .insert({
       link_id: linkId,
@@ -21,19 +21,15 @@ export async function submitSafetyEvent(
       operating_system: device.operating_system,
       user_agent: device.user_agent,
       network_information: device.network_information,
-    })
-    .select()
-    .single();
+    });
 
   if (error) throw error;
 
-  // Update last_triggered_at on the link
+  // Update last_triggered_at on the link (best-effort, may fail for anon)
   await supabase
     .from('safety_links')
     .update({ last_triggered_at: new Date().toISOString() })
     .eq('id', linkId);
-
-  return data as SafetyEvent;
 }
 
 export async function getEventsByLinkId(linkId: string): Promise<SafetyEvent[]> {
